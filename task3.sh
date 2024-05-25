@@ -8,9 +8,10 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 echo "Deploy Prometheus Helm chart in the monitoring namespace"
-helm install prometheus prometheus-community/prometheus --namespace monitoring
+helm install prometheus prometheus-community/prometheus --namespace monitoring -f values.yaml
 
 echo "Waiting for the Helm chart deployment to be ready..."
+sleep 10
 while true; do
     if kubectl get pods -n monitoring | grep -qE "prometheus.*Running"; then
         READY_COUNT=$(kubectl get pods -n monitoring -o json | jq -r '.items[].status.containerStatuses[].ready' | grep -c true)
@@ -20,8 +21,9 @@ while true; do
             break
         fi
     fi
-    sleep 5
 done
 
+# Forward port 9090 of my VM to port 80 on te prometheus-server service pod
+# "kubectl get svc -n monitoring prometheus-server -o yaml" to find that port 80 was used by the service
 echo "Forward the promeheus-server service to the VM"
-kubectl port-forward -n monitoring prometheus-server 9090:80
+kubectl port-forward -n monitoring svc/prometheus-server 9090:80
