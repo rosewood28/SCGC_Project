@@ -36,5 +36,6 @@ echo "The password for 'admin' grafana user is:"
 kubectl get secret --namespace monitoring scgc-hw-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
 echo ""
-echo "Forward grafana to VM with: kubectl port-forward svc/scgc-hw-grafana 3000:80"
+echo "Forward grafana to VM"
+echo "kubectl port-forward -n monitoring svc/scgc-hw-grafana 3000:80"
 kubectl port-forward -n monitoring svc/scgc-hw-grafana 3000:80
