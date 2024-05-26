@@ -8,9 +8,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 echo "Deploy Prometheus Helm chart in the monitoring namespace"
-helm install prometheus prometheus-community/prometheus -n monitoring -f values.yaml
-#helm install prometheus prometheus-community/prometheus --namespace monitoring
-#helm upgrade --install prometheus prometheus-community/prometheus -f values.yaml
+helm install prometheus prometheus-community/prometheus -n monitoring -f task3_prometheus_values.yaml
 
 echo "Waiting for the Helm chart deployment to be ready..."
 sleep 10
