@@ -724,8 +724,7 @@ ruleFiles: {}
 ## Prometheus server ConfigMap entries for scrape_config_files
 ## (allows scrape configs defined in additional files)
 ##
-scrapeConfigFiles:
-  - task3_scrape_config.yaml
+scrapeConfigFiles: []
 
 ## Prometheus server ConfigMap entries
 ##
@@ -767,6 +766,10 @@ serverFiles:
           - targets:
             - localhost:9090
 
+      - job_name: 'promexporter'
+        scrape_interval: 10s
+        static_configs:
+          - targets: ['promexporter.default.svc.cluster.local:9113']
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
       # and services to allow each to use different authentication configs.
